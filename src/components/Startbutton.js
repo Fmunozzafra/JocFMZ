@@ -1,8 +1,11 @@
 import { Button } from './Button.js';
 
+
 export class Startbutton extends Button {
+    
+
     constructor(scene) {
-        super(scene, 'play', 600, 600);
+        super(scene, "play", 600, 600);
     }
 
     doClick() {
