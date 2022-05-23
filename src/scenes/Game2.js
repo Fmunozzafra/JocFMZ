@@ -12,6 +12,9 @@ let scoreText;
 let gameOver;
 let score = 1;
 let portal;
+let vida = 3;
+let vidaText;
+let countvida = 3;
 
 export class Game2 extends Phaser.Scene
 {
@@ -31,10 +34,12 @@ export class Game2 extends Phaser.Scene
     this.load.image('star', './src/assets/star.png');
     this.load.spritesheet('dude', './src/assets/dude.png', { frameWidth: 32, frameHeight: 48 });
     this.load.image('portal', './src/assets/portal.png');
+    this.load.image('vida', './src/assets/vida.png');
+
 
 }
 
- create ()
+ create (data)
 {
     this.add.image(600, 350, 'sky');
     
@@ -110,7 +115,8 @@ export class Game2 extends Phaser.Scene
 
 
 
-    scoreText = this.add.text(16, 16, 'score: 1', { fontSize: '32px', fill: '#000' });
+    scoreText = this.add.text(16, 16, score, { fontSize: '32px', fill: '#000' });
+    vidaText = this.add.text(1110, 16, 'X '+vida, { fontSize: '32px', fill: '#000' });
 
     this.physics.add.collider(player, platforms);
     this.physics.add.collider(stars, platforms);
@@ -124,6 +130,15 @@ export class Game2 extends Phaser.Scene
     this.physics.add.collider(player, portal, seguentNivell, null, this);
 
 
+    if (score==null)score=data.score
+        if(data.score==1){
+            score=0;
+            data.score=0
+        }
+    
+    
+    let vidaImg = this.add.image(1070,30,'vida');
+    vidaImg.setScale(0.2);
 }
 
  update ()
@@ -186,7 +201,26 @@ function hitSpike (player, spike)
 
     player.anims.play('turn');
 
-    gameOver = true;
+    vida -= 1;
+    countvida-=1;
+    vidaText.setText('X ' + vida);
+
+    this.time.addEvent({
+        delay: 1000,
+        
+        callback: (countvida) => {
+                       
+            player.clearTint();
+            this.scene.start('Game2',{score:score});
+            }
+        
+    });
+
+    if(countvida < 0) {
+        this.scene.start('GameOver');
+
+    }
+    
 }
 
 function hitAcid (player, acid)
@@ -197,12 +231,31 @@ function hitAcid (player, acid)
 
     player.anims.play('turn');
 
-    gameOver = true;
+    vida -= 1;
+    countvida-=1;
+    vidaText.setText('X ' + vida);
+
+    this.time.addEvent({
+        delay: 1000,
+        
+        callback: (countvida) => {
+                       
+            player.clearTint();
+            this.scene.start('Game2',{score:score});
+            }
+        
+    });
+
+    if(countvida < 0) {
+        this.scene.start('GameOver');
+
+    }
+    
 }
 
 function seguentNivell(){
     //musica1.stop()
-    this.scene.start('GameOver',{score:score})
+    this.scene.start('Menu',{score:score})
 }
 
 

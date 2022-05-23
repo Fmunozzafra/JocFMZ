@@ -1,5 +1,5 @@
 import Phaser from 'phaser'
-import {config} from "../index";
+
 
 
 let platforms;
@@ -12,6 +12,9 @@ let scoreText;
 let gameOver;
 let score = 1;
 let portal;
+let vida = 3;
+let vidaText;
+let countvida = 3;
 
 export class Game1 extends Phaser.Scene
 {
@@ -19,6 +22,8 @@ export class Game1 extends Phaser.Scene
         super('Game1');
 
     }
+
+    
 
     preload ()
 {
@@ -31,14 +36,16 @@ export class Game1 extends Phaser.Scene
     this.load.image('star', './src/assets/star.png');
     this.load.spritesheet('dude', './src/assets/dude.png', { frameWidth: 32, frameHeight: 48 });
     this.load.image('portal', './src/assets/portal.png');
+    this.load.image('vida', './src/assets/vida.png');
+
 
 }
 
  create ()
 {
+
     this.add.image(600, 350, 'sky');
     
-
     platforms = this.physics.add.staticGroup();
 
     
@@ -111,8 +118,11 @@ export class Game1 extends Phaser.Scene
 
 
 
-    scoreText = this.add.text(16, 16, 'score: 1', { fontSize: '32px', fill: '#000' });
+    scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#000' });
+    vidaText = this.add.text(1110, 16, 'X '+vida, { fontSize: '32px', fill: '#000' });
 
+
+    
     this.physics.add.collider(player, platforms);
     this.physics.add.collider(stars, platforms);
 
@@ -122,6 +132,10 @@ export class Game1 extends Phaser.Scene
     this.physics.add.collider(player, acid, hitAcid, null, this);
 
     this.physics.add.collider(player, portal, seguentNivell, null, this);
+
+    let vidaImg = this.add.image(1070,30,'vida');
+    vidaImg.setScale(0.2);
+    
 
 }
 
@@ -155,6 +169,8 @@ export class Game1 extends Phaser.Scene
     {
         player.setVelocityY(-330);
     }
+
+    
 }
 
 }
@@ -185,7 +201,27 @@ function hitSpike (player, spike)
 
     player.anims.play('turn');
 
-    gameOver = true;
+    vida -= 1;
+    countvida-=1;
+    vidaText.setText('X ' + vida);
+
+    this.time.addEvent({
+        delay: 1000,
+        
+        callback: (countvida) => {
+                       
+            player.clearTint();
+            this.scene.start('Game1',{score:score});
+            }
+        
+    });
+
+    if(countvida < 0) {
+        this.scene.start('GameOver');
+
+    }
+    
+    
 }
 
 function hitAcid (player, acid)
@@ -193,10 +229,31 @@ function hitAcid (player, acid)
     this.physics.pause();
 
     player.setTint(0xff0000);
+    
 
     player.anims.play('turn');
 
-    gameOver = true;
+    vida -= 1;
+    countvida-=1;
+    vidaText.setText('X ' + vida);
+
+    this.time.addEvent({
+        delay: 1000,
+        
+        callback: (countvida) => {
+                       
+            player.clearTint();
+            this.scene.start('Game1',{score:score});
+            }
+        
+    });
+
+    if(countvida < 0) {
+        this.scene.start('GameOver');
+
+    }
+    
+
 }
 
 function seguentNivell(){
