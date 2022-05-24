@@ -14,25 +14,21 @@ export class Menu extends Phaser.Scene
    }
 
    preload(){
-       this.load.image("fondo", "./src/assets/aaaa.jpg");
+       this.load.image("fondo", "assets/aaaa.jpg");
    
-       this.load.image("github", "./src/assets/github.jpg");
+       this.load.image("github", "assets/github.jpg");
 
-       this.load.image("logo", "./src/assets/logo.png");
+       this.load.image("logo", "assets/logo.png");
 
-       this.load.image("play", './src/assets/play.png');
-
-       //this.load.image("surt", './src/assets/surt.png');
-
+       this.load.image("play", 'assets/play.png');
 
     }
 
-   create(){
+   create(data){
         this.add.image(1000,600, "fondo");
         this.add.image(this.game.renderer.width / 2,this.game.renderer.height / 4, "logo");
 
         this.startbutton.create();
-        //this.startbutton = this.add.image(this.game.renderer.width / 2,this.game.renderer.height / 2, "play").setInteractive().setDepth(1);
         
     
 
@@ -44,6 +40,7 @@ export class Menu extends Phaser.Scene
             s.focus();
         });
 
+        
    }
 }
 

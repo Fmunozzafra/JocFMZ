@@ -13,11 +13,11 @@ export class GameOver extends Phaser.Scene
    }
 
    preload(){
-       this.load.image("fondo", "./src/assets/aaaa.jpg");
+       this.load.image("fondo", "assets/aaaa.jpg");
    
-       this.load.image("gameO", "./src/assets/gameOver.png");
+       this.load.image("gameO", "assets/gameOver.png");
 
-       this.load.image("play", "./src/assets/play.png");
+       this.load.image("play", "assets/play.png");
 
     }
 

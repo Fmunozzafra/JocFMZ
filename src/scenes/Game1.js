@@ -30,20 +30,20 @@ export class Game1 extends Phaser.Scene
 
     preload ()
 {
-    this.load.image('spike', './src/assets/spike.png');
-    this.load.image('acid', './src/assets/acid.png');
-    this.load.image('plataforma', './src/assets/base3.png');
-    this.load.image('plataforma2', './src/assets/base4.png');
-    this.load.image('low_terra', './src/assets/base.png');
-    this.load.image('sky', './src/assets/fondo.png');
-    this.load.image('star', './src/assets/star.png');
-    this.load.spritesheet('dude', './src/assets/dude.png', { frameWidth: 32, frameHeight: 48 });
-    this.load.image('portal', './src/assets/portal.png');
-    this.load.image('vida', './src/assets/vida.png');
+    this.load.image('spike', 'assets/spike.png');
+    this.load.image('acid', 'assets/acid.png');
+    this.load.image('plataforma', 'assets/base3.png');
+    this.load.image('plataforma2', 'assets/base4.png');
+    this.load.image('low_terra', 'assets/base.png');
+    this.load.image('sky', 'assets/fondo.png');
+    this.load.image('star', 'assets/star.png');
+    this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 32, frameHeight: 48 });
+    this.load.image('portal', 'assets/portal.png');
+    this.load.image('vida', 'assets/vida.png');
 
-    this.load.audio('ost', './src/audio/ost.mp3');
-    this.load.audio('die', './src/audio/die.wav');
-    this.load.audio('coin', './src/audio/coin.wav');
+    this.load.audio('ost', 'audio/ost.mp3');
+    this.load.audio('die', 'audio/die.wav');
+    this.load.audio('coin', 'audio/coin.wav');
 
 }
 
