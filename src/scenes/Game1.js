@@ -41,9 +41,9 @@ export class Game1 extends Phaser.Scene
     this.load.image('portal', 'assets/portal.png');
     this.load.image('vida', 'assets/vida.png');
 
-    this.load.audio('ost', 'audio/ost.mp3');
-    this.load.audio('die', 'audio/die.wav');
-    this.load.audio('coin', 'audio/coin.wav');
+    this.load.audio('ost', 'assets/ost.mp3');
+    this.load.audio('die', 'assets/die.wav');
+    this.load.audio('coin', 'assets/coin.wav');
 
 }
 
