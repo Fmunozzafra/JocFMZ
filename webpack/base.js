@@ -8,7 +8,7 @@ module.exports = {
   devtool: "eval-source-map",
   devServer: {
     before: (app) => {
-      app.get('/assets/*.png', (req, res) => {
+      app.get('/assets/*.*', (req, res) => {
         res.sendFile(`./src${req.url}`, { root: '.' })
       })
     },
