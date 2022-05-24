@@ -10,11 +10,14 @@ let cursors;
 let stars;
 let scoreText;
 let gameOver;
-let score = 1;
+let score=1;
 let portal;
-let vida = 3;
+let vida;
 let vidaText;
-let countvida = 3;
+let countvida;
+let ost;
+let die;
+let coin;
 
 export class Game2 extends Phaser.Scene
 {
@@ -37,10 +40,24 @@ export class Game2 extends Phaser.Scene
     this.load.image('vida', './src/assets/vida.png');
 
 
+    this.load.audio('ost', './src/audio/ost.mp3');
+    this.load.audio('die', './src/audio/die.wav');
+    this.load.audio('coin', './src/audio/coin.wav');
+
 }
 
  create (data)
 {
+    if(countvida==null)countvida=data.countvida
+    score=data.score
+    vida=data.vida
+
+    ost=this.sound.add('ost');
+    die=this.sound.add('die');
+    coin=this.sound.add('coin');
+    ost.loop=true;
+    ost.play();
+
     this.add.image(600, 350, 'sky');
     
     
@@ -115,7 +132,7 @@ export class Game2 extends Phaser.Scene
 
 
 
-    scoreText = this.add.text(16, 16, score, { fontSize: '32px', fill: '#000' });
+    scoreText = this.add.text(16, 16, 'Score: '+score, { fontSize: '32px', fill: '#000' });
     vidaText = this.add.text(1110, 16, 'X '+vida, { fontSize: '32px', fill: '#000' });
 
     this.physics.add.collider(player, platforms);
@@ -178,6 +195,7 @@ export class Game2 extends Phaser.Scene
 function collectStar (player, star)
 {
     star.disableBody(true, true);
+    coin.play();
 
     score += 10;
     scoreText.setText('Score: ' + score);
@@ -196,6 +214,8 @@ function collectStar (player, star)
 function hitSpike (player, spike)
 {
     this.physics.pause();
+    ost.stop();
+    die.play();
 
     player.setTint(0xff0000);
 
@@ -211,7 +231,7 @@ function hitSpike (player, spike)
         callback: (countvida) => {
                        
             player.clearTint();
-            this.scene.start('Game2',{score:score});
+            this.scene.start('Game2',{score:score, vida:vida});
             }
         
     });
@@ -226,6 +246,8 @@ function hitSpike (player, spike)
 function hitAcid (player, acid)
 {
     this.physics.pause();
+    ost.stop();
+    die.play();
 
     player.setTint(0xff0000);
 
@@ -241,7 +263,7 @@ function hitAcid (player, acid)
         callback: (countvida) => {
                        
             player.clearTint();
-            this.scene.start('Game2',{score:score});
+            this.scene.start('Game2',{score:score, vida:vida});
             }
         
     });
@@ -254,7 +276,7 @@ function hitAcid (player, acid)
 }
 
 function seguentNivell(){
-    //musica1.stop()
+    ost.stop()
     this.scene.start('Menu',{score:score})
 }
 

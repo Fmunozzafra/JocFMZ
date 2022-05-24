@@ -12,9 +12,12 @@ let scoreText;
 let gameOver;
 let score = 1;
 let portal;
-let vida = 3;
+let vida;
 let vidaText;
-let countvida = 3;
+let countvida;
+let ost;
+let die;
+let coin;
 
 export class Game1 extends Phaser.Scene
 {
@@ -38,11 +41,28 @@ export class Game1 extends Phaser.Scene
     this.load.image('portal', './src/assets/portal.png');
     this.load.image('vida', './src/assets/vida.png');
 
+    this.load.audio('ost', './src/audio/ost.mp3');
+    this.load.audio('die', './src/audio/die.wav');
+    this.load.audio('coin', './src/audio/coin.wav');
 
 }
 
- create ()
+ create (data)
 {
+
+    if (score==null)score=data.score
+    if(data.score==1){
+        score=0;
+        data.score=0
+        vida = 3;
+        countvida=3;
+    }
+
+    ost=this.sound.add('ost');
+    die=this.sound.add('die');
+    coin=this.sound.add('coin');
+    ost.loop=true;
+    ost.play();
 
     this.add.image(600, 350, 'sky');
     
@@ -178,6 +198,7 @@ export class Game1 extends Phaser.Scene
 function collectStar (player, star)
 {
     star.disableBody(true, true);
+    coin.play();
 
     score += 10;
     scoreText.setText('Score: ' + score);
@@ -196,6 +217,8 @@ function collectStar (player, star)
 function hitSpike (player, spike)
 {
     this.physics.pause();
+    ost.stop();
+    die.play();
 
     player.setTint(0xff0000);
 
@@ -217,6 +240,8 @@ function hitSpike (player, spike)
     });
 
     if(countvida < 0) {
+        this.vida = 3;
+        this.countvida = 3;
         this.scene.start('GameOver');
 
     }
@@ -227,6 +252,8 @@ function hitSpike (player, spike)
 function hitAcid (player, acid)
 {
     this.physics.pause();
+    ost.stop();
+    die.play();
 
     player.setTint(0xff0000);
     
@@ -249,6 +276,8 @@ function hitAcid (player, acid)
     });
 
     if(countvida < 0) {
+        this.vida = 3;
+        this.countvida = 3;
         this.scene.start('GameOver');
 
     }
@@ -257,8 +286,8 @@ function hitAcid (player, acid)
 }
 
 function seguentNivell(){
-    //musica1.stop()
-    this.scene.start('Game2',{score:score})
+    ost.stop()
+    this.scene.start('Game2',{score:score, vida:vida, countvida:countvida})
 }
 
 export default Game1;
